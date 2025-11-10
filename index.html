@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Conversational English (B1) — Lesson Runner</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="selectors">
+            <label>
+                Week:
+                <select id="weekSelect"></select>
+            </label>
+            <label>
+                Lesson:
+                <select id="lessonSelect">
+                    <option value="lesson1">Lesson 1 — CYOA</option>
+                    <option value="lesson2">Lesson 2 — Presentations</option>
+                </select>
+            </label>
+            <button id="helpButton" class="help-button" title="Help">?</button>
+        </div>
+        <div class="timebox-utilities">
+            <div class="timer">
+                <label>
+                    Timeboxes:
+                    <button data-timer="warmup">Warm-up - 10</button>
+                    <button data-lesson="lesson1" data-timer="exercise1">Exercise One - 20</button>
+                    <button data-lesson="lesson1" data-timer="exercise2">Exercise Two - 20</button>
+                    <button data-lesson="lesson2" data-timer="presentation">Presentation - 5</button>
+                    <button data-lesson="lesson2" data-timer="dialogue">Dialogue - 5</button>
+                    <button data-timer="reflection">Reflection - 10</button>
+                </label>
+                <label>
+                    Timer Controls:
+                    <button id="timerPause">Pause</button>
+                    <button id="timerReset">Reset</button>
+                </label>
+            </div>
+            <div class="timer">
+                <label>
+                    Timer:
+                    <span id="timerDisplay">00:00</span>
+                </label>
+            </div>
+    </header>
+
+    <main class="layout">
+        <section class="media-panel">
+            <div class="media-controls">
+                <label>
+                    Media Type:
+                    <select id="mediaType">
+                        <option value="image" selected>Image</option>
+                        <option value="video">YouTube</option>
+                    </select>
+                </label>
+                <label>
+                    URL:
+                    <input id="mediaUrl" type="text" placeholder="https://...">
+                </label>
+                <button id="applyMedia">Apply</button>
+                <label>
+                    Keyword:
+                    <input id="mediaKeyword" type="text" placeholder="e.g., city skyline">
+                </label>
+                <button id="searchImage">Search</button>
+                <div class="media-actions"><button id="refreshImage" title="Change Image">Change Image</button></div>
+            </div>
+            <div id="mediaContainer" class="media-container"></div>
+        </section>
+
+        <aside class="side-panel">
+            <div class="order-utilities" data-lesson="lesson1">
+                <label>
+                    <button id="pickInitiator">Change Student</button>
+                    <span id="initiatorName">—</span>
+                </label>
+            </div>
+            <div id="lesson2Controls" class="lesson2-controls hidden">
+                <h3 class="section-title">Mode</h3>
+                <label>
+                    <select id="modeSelect"></select>
+                </label>
+                <h3 class="section-title">Prompts</h3>
+                <div id="modePrompts" class="mode-prompts"></div>
+            </div>
+            <div class="paths" data-lesson="lesson1">
+                <button data-lesson="lesson1" id="pathA" class="path-btn" disabled>Path A</button>
+                <button data-lesson="lesson1" id="pathB" class="path-btn" disabled>Path B</button>
+                <button data-lesson="lesson1" id="resetPaths" class="path-btn" title="Reset to start">Reset
+                    Paths</button>
+            </div>
+            <div class="prompt-block">
+                <h3>Prompt</h3>
+                <div id="prompt" class="prompt">Select a path to begin.</div>
+            </div>
+            <div class="vocab">
+                <h3>Optional Vocabulary</h3>
+                <ul id="vocabList">
+                    <li class="placeholder">—</li>
+                </ul>
+            </div>
+            <div class="selected-path" data-lesson="lesson1">
+                <h3>Selected Path</h3>
+                <div id="selectedPath">—</div>
+            </div>
+            <div class="trail" data-lesson="lesson1">
+                <h3>Path taken</h3>
+                <ol id="pathTrail">
+                    <li class="placeholder">—</li>
+                </ol>
+            </div>
+            <div id="progressCounter" class="progress" data-lesson="lesson1">Decisions remaining: 6/6</div>
+        </aside>
+    </main>
+
+    <footer class="footer">
+        <div class="note">Please ensure selected media is appropriate for the class.</div>
+    </footer>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Help & Course Guide</h2>
+                <button id="closeModal" class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <section class="help-section">
+                    <h3>Course Overview</h3>
+                    <p><strong>12-Week Conversational English Program (B1 Level)</strong></p>
+                    <ul>
+                        <li><strong>Cohort size:</strong> 6–8 students</li>
+                        <li><strong>Schedule:</strong> 12 weeks × 2 lessons/week × 60 minutes</li>
+                        <li><strong>Goals:</strong> Build fluency, confidence, and equitable participation through
+                            topic-focused discussion, structured choice, and student-led presentations</li>
+                    </ul>
+                </section>
+
+                <section class="help-section">
+                    <h3>Weekly Topics</h3>
+                    <ol>
+                        <li>Personal stories and identities</li>
+                        <li>Community and civic life</li>
+                        <li>Modern digital communication</li>
+                        <li>Travel and cultural exchange</li>
+                        <li>Health and wellness</li>
+                        <li>Work and everyday problem-solving</li>
+                        <li>Current news and local events</li>
+                        <li>Future planning and goal setting</li>
+                        <li>Art and music</li>
+                        <li>Literature and storytelling</li>
+                        <li>Environment and sustainability</li>
+                        <li>Technology and society</li>
+                    </ol>
+                </section>
+
+                <section class="help-section">
+                    <h3>Lesson Structure</h3>
+                    <p>Each lesson follows this timing:</p>
+                    <ul>
+                        <li><strong>Warm-up (10m):</strong> Quick pair/share connected to the week's topic</li>
+                        <li><strong>Core activity (40m):</strong> Main lesson content (CYOA or Presentations)</li>
+                        <li><strong>Reflection (10m):</strong> Open, meta-level class discussion about strategies,
+                            language, and group dynamics</li>
+                    </ul>
+                </section>
+
+                <section class="help-section">
+                    <h3>Lesson 1: Choose-Your-Own-Adventure (CYOA)</h3>
+                    <p><strong>How it works:</strong></p>
+                    <ol>
+                        <li>Select a week and choose "Lesson 1 — CYOA"</li>
+                        <li>An image related to the topic is displayed</li>
+                        <li>At each decision point, two path options appear (Path A and Path B)</li>
+                        <li>Click "Change Student" to select the initiator</li>
+                        <li>Select a path to see the prompt and vocabulary</li>
+                        <li>The initiator reads the prompt to begin the conversation</li>
+                        <li>Progress through 5–6 decision points (teacher may stop earlier if discussion is rich)</li>
+                        <li>Use "Reset Paths" to start over</li>
+                    </ol>
+                    <p><strong>Features:</strong></p>
+                    <ul>
+                        <li>Vocabulary bank: 2–3 B1 words with definitions appear for each path</li>
+                        <li>Path tracking: See your selected path and the trail of decisions</li>
+                        <li>No backtracking: Progress forward through selected branches</li>
+                    </ul>
+                </section>
+
+                <section class="help-section">
+                    <h3>Lesson 2: Student Presentations</h3>
+                    <p><strong>How it works:</strong></p>
+                    <ol>
+                        <li>Select a week and choose "Lesson 2 — Presentations"</li>
+                        <li>Two presenters per lesson (20 minutes each)</li>
+                        <li>For each presenter:
+                            <ul>
+                                <li><strong>5 minutes:</strong> Micro-presentation of chosen media (video or image)</li>
+                                <li>Presenter selects conversation mode: business, academic, debate, artistic, social,
+                                    technical, or creative</li>
+                                <li>Class sees three pre-authored questions aligned to the selected mode</li>
+                                <li>Students select and ask one question</li>
+                                <li><strong>1-to-1 dialogues:</strong> Each dialogue is 3 short exchanges, timeboxed to
+                                    5 minutes; repeat within time</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p><strong>Rotation:</strong> With 6 students, each presents 4× across 12 weeks; with 8 students,
+                        each presents 3×</p>
+                </section>
+
+                <section class="help-section">
+                    <h3>Using the Timer</h3>
+                    <ul>
+                        <li>Click timebox buttons (Warm-up, Exercise One, Exercise Two, Presentation, Dialogue,
+                            Reflection) to set the timer</li>
+                        <li>Use "Pause" to pause the timer and "Resume" to continue</li>
+                        <li>Use "Reset" to clear the timer back to 00:00</li>
+                        <li>Timeboxes are filtered by lesson type (some only appear for Lesson 1 or Lesson 2)</li>
+                    </ul>
+                </section>
+
+                <section class="help-section">
+                    <h3>Media Controls</h3>
+                    <ul>
+                        <li><strong>Media Type:</strong> Switch between Image and YouTube video</li>
+                        <li><strong>URL:</strong> Paste a direct image or YouTube URL and click "Apply"</li>
+                        <li><strong>Keyword Search:</strong> Enter a keyword (e.g., "city skyline") and click "Search"
+                            to find images from Wikimedia Commons</li>
+                        <li><strong>Change Image:</strong> Rotate through available images or refresh the current image
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="help-section">
+                    <h3>Tips for Teachers</h3>
+                    <ul>
+                        <li>Edit <code>lessons.json</code> to customize topics, branches, prompts, vocabulary, and
+                            student names</li>
+                        <li>Use the "Change Student" button to rotate initiators and ensure equitable participation</li>
+                        <li>You can stop the CYOA early if discussion is particularly rich</li>
+                        <li>For Lesson 2, manage the presentation rotation schedule manually</li>
+                        <li>Reflection happens offline/analog in the final 10 minutes</li>
+                    </ul>
+                </section>
+
+                <section class="help-section">
+                    <h3>Content Moderation</h3>
+                    <p class="note-text">Please ensure selected media is appropriate for the class. Online content may
+                        not be suitable for all learners. Use professional judgment when selecting images and videos.
+                    </p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
